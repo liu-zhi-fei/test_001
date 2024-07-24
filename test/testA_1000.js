@@ -1001,5 +1001,4 @@ function testA() {
     const obj998 = { key998: 1 };
     const obj999 = { key999: 1 };
 }
-
 export default testA

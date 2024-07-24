@@ -1,46 +1,46 @@
-import testB from './testB.js';
-import testA from './testA.js';
+import TestA_10 from './test/testA_10.js';
+import TestB_10 from './test/testB_10.js';
+import TestA_1000 from './test/testA_1000.js';
+import TestB_1000 from './test/testB_1000.js';
+import testA_10000 from './test/testA_10000.js';
+import testB_10000 from './test/testB_10000.js';
 
-function start() {
-    let startTime, endTime;
-    let timeA, timeB;
+console.log('A 为 key 不一样，值为 1 的对象 {[key]: 1}')
+console.log('B 为 key 一样，值为 1的对象 { a: 1}')
+console.log('')
 
-    startTime = performance.now();
-    for (let i = 0; i < 1000000; i++) {
-        testB();
+
+function test(a, b, runNumber) {
+    let countA = 0, countB = 0, equalCount = 0;
+
+    for (let i = 0; i < 100; i++) {
+        let timeA = measureTime(a, runNumber);
+        let timeB = measureTime(b, runNumber);
+
+        if (timeA < timeB) countA++;
+        else if (timeB < timeA) countB++;
+        else equalCount++;
     }
-    endTime = performance.now();
-    timeA = endTime - startTime;
 
-    startTime = performance.now();
-    for (let i = 0; i < 1000000; i++) {
-        testA();
-    }
-    endTime = performance.now();
-    timeB = endTime - startTime;
-
-    if (timeA < timeB) {
-        return 'A';
-    } else if (timeB < timeA) {
-        return 'B';
-    } else {
-        return 'Equal';
-    }
+    console.log(`A 更快 ${countA} 次，B 更快 ${countB} 次，相同 ${equalCount} 次。`);
 }
 
-let countA = 0;
-let countB = 0;
-let equalCount = 0;
-
-for (let i = 0; i < 10000; i++) {
-    let result = start();
-    if (result === 'A') {
-        countA++;
-    } else if (result === 'B') {
-        countB++;
-    } else {
-        equalCount++;
-    }
+function measureTime(func, runNumber) {
+    let startTime = performance.now();
+    for (let i = 0; i < runNumber; i++) func();
+    return performance.now() - startTime;
 }
 
-console.log(`总共测试了 10000 次，其中 A 更快 ${countA} 次，B 更快 ${countB} 次，相同 ${equalCount} 次。`);
+function testAll() {
+    [1, 100, 10000].forEach(runNumber => {
+        console.log(`数量级10,运行次数 ${runNumber}`);
+        test(TestA_10, TestB_10, runNumber);
+        console.log(`数量级1000,运行次数 ${runNumber}`);
+        test(TestA_1000, TestB_1000, runNumber);
+        console.log(`数量级10000,运行次数 ${runNumber}`);
+        test(testA_10000, testB_10000, runNumber);
+        console.log('');
+    });
+}
+
+testAll();
