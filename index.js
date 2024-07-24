@@ -9,9 +9,9 @@ console.log('A 为 key 不一样，值为 1 的对象 {[key]: 1}')
 console.log('B 为 key 一样，值为 1的对象 { a: 1}')
 console.log('')
 
-
 function test(a, b, runNumber) {
     let countA = 0, countB = 0, equalCount = 0;
+    let testStartTime = performance.now();  // 开始测试的时间
 
     for (let i = 0; i < 100; i++) {
         let timeA = measureTime(a, runNumber);
@@ -22,7 +22,9 @@ function test(a, b, runNumber) {
         else equalCount++;
     }
 
+    let testDuration = performance.now() - testStartTime;  // 测试总持续时间
     console.log(`A 更快 ${countA} 次，B 更快 ${countB} 次，相同 ${equalCount} 次。`);
+    console.log(`总运行时间: ${testDuration.toFixed(2)} 毫秒`);
 }
 
 function measureTime(func, runNumber) {
