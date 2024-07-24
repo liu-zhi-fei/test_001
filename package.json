@@ -1,0 +1,16 @@
+{
+  "name": "testjs",
+  "module": "index.js",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "start:ts-node": "ts-node index.ts",
+    "start:bun": "bun index.js"
+  }
+}
